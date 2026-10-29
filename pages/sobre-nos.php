@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/styles.css?v=fundo-limpeza-1">
+    <link rel="stylesheet" href="../css/styles.css?v=fundo-pontos-2">
 </head>
 <body class="story-page">
     <div class="story-shell">
@@ -28,7 +28,7 @@
                 <span class="story-chapter-label">01 / A EMPRESA</span>
                 <h2 id="studio-history">Como nasceu a VORTEX</h2>
                 <p>A <strong>VORTEX</strong> é uma empresa fictícia especializada no desenvolvimento de jogos digitais para navegador. Nosso foco são experiências arcade com controles simples, partidas rápidas e desafios que aumentam conforme o jogador aprende.</p>
-                <p>Criada em 2026 por <strong>Rafael Azevedo</strong>, a empresa nasceu de um projeto individual de sala de aula. A ideia era ampliar um jogo de pulo: criar uma identidade visual, dar espaço a diferentes personagens e fazer cada nova tentativa trazer uma chance de melhorar.</p>
+                <p>Criada em 2026 por <strong>Pedro Rodrigues</strong>, a empresa nasceu de um projeto individual de sala de aula. A ideia era ampliar um jogo de pulo: criar uma identidade visual, dar espaço a diferentes personagens e fazer cada nova tentativa trazer uma chance de melhorar.</p>
                 <p>O nome VORTEX veio da imagem de um redemoinho, sempre em movimento. Ele representa o ciclo de criar, testar e recomeçar que acompanhou o desenvolvimento do nosso primeiro projeto: <strong>Hero Jump</strong>.</p>
                 <h3>O que fazemos</h3>
                 <p>Nossos serviços incluem o <strong>desenvolvimento de jogos web</strong>, a criação de interfaces, a programação das mecânicas e a personalização de personagens, cenários e obstáculos. Também realizamos testes de jogabilidade e adaptação da interface para computador e celular, buscando comandos claros e uma experiência consistente nas duas telas.</p>
@@ -91,7 +91,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">RF04</th>
-                                <td>Fazer os itens aparecerem durante a partida, acrescentar 50 pontos por coleta e remover o item coletado da tela.</td>
+                                <td>Fazer os itens aparecerem durante a partida, acrescentar 30 pontos por coleta e remover o item coletado da tela.</td>
                                 <td class="requirements-type">Funcional</td>
                             </tr>
                             <tr>
@@ -106,7 +106,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">RF07</th>
-                                <td>Liberar a Pedra do Trovão para Pikachu a partir de 100 pontos. Ao coletá-la, evoluir para Raichu, mostrar os raios e pausar a partida por 1,2 segundo, descontando essa pausa do tempo dos níveis.</td>
+                                <td>Liberar a Pedra do Trovão para Pikachu a partir de 1.500 pontos. Ao coletá-la, evoluir para Raichu, mostrar os raios e pausar a partida por 1,2 segundo, descontando essa pausa do tempo dos níveis.</td>
                                 <td class="requirements-type">Funcional</td>
                             </tr>
                             <tr>
@@ -164,7 +164,7 @@
                 </div>
             </section>
         </main>
-        <footer class="story-footer">VORTEX · Hero Jump<br><span>Empresa, fundador e história de origem fictícios, criados para um projeto acadêmico.</span></footer>
+        <footer class="story-footer">VORTEX · Hero Jump<br><span>Todos os Direitos Reservados.</span></footer>
     </div>
 </body>
 </html>

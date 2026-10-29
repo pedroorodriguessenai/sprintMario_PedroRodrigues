@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const HITBOX_OBSTACULO = { lateral: 0.18, superior: 0.30, inferior: 0.05 };
 
     // Cada coleta soma ao mesmo total usado pelo placar e pelo ranking.
-    const PONTOS_POR_ITEM = 50;
-    const PONTOS_PARA_EVOLUIR = 100;
+    const PONTOS_POR_ITEM = 30;
+    const PONTOS_PARA_EVOLUIR = 1500;
     const RAICHU_FRAMES = [1, 2, 3].map((numero) =>
         `assets/characters/raichu/corrida-0${numero}.png`
     );
@@ -279,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
         animacaoObstaculo = obterAnimacaoDoObstaculo();
         atualizarVelocidade();
 
-        // A pontuação por sobrevivência acompanha a velocidade; cada item soma 50.
+        // A pontuação por sobrevivência acompanha a velocidade; cada item soma 30.
         pontosExatos = 0;
         ultimoTickPontos = performance.now();
         scoreLoop = setInterval(() => {

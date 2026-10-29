@@ -38,9 +38,9 @@ Não há pasta `api`, `database`, `config` ou `docs`, nem formulário, JavaScrip
 
 ## Jogo
 
-Escolha um dos quatro personagens e pule com Espaço, seta para cima ou toque no cenário. Evite os obstáculos e colete itens: cada coleta concede 50 pontos, além da pontuação por sobrevivência. O contador é zerado em cada nova partida.
+Escolha um dos quatro personagens e pule com Espaço, seta para cima ou toque no cenário. Evite os obstáculos e colete itens: cada coleta concede 30 pontos, além da pontuação por sobrevivência. O contador é zerado em cada nova partida.
 
-O GIF `assets/fundo-inicio.gif` também aparece no fundo da página de gameplay, ao redor do tabuleiro, com 12% de opacidade. O valor pode ser ajustado em `--game-background-opacity`, na classe `.game-page` do CSS. A preferência de movimento reduzido oculta esse fundo decorativo. A página Sobre nós mantém seu fundo próprio.
+O GIF `assets/fundo-inicio.gif` também aparece no fundo da página de gameplay, ao redor do tabuleiro, com 24% de opacidade. O valor pode ser ajustado em `--game-background-opacity`, na classe `.game-page` do CSS. A camada decorativa fica acima do fundo da página e abaixo do tabuleiro, permanecendo visível também com movimento reduzido. A página Sobre nós mantém seu fundo próprio.
 
 O fundo e os raios foram verificados em 1280, 390 e 320 px, com movimento normal e reduzido. A revisão também conferiu evolução, alinhamento dos quadros do Raichu, áudio, Game Over e reinício. A análise de referências preservou as classes de estados dinâmicos e as imagens alternativas dos coletáveis.
 
@@ -83,7 +83,7 @@ Verificação em Chromium com relógio simulado, usando os quatro personagens na
 | --- | --- |
 | Antes de 20 s, aos 20 s e aos 45 s | Fácil, Médio e Difícil exibidos nos limites previstos |
 | Aceleração dos obstáculos e rolagem do cenário | Velocidade progressiva; limite de 2,0x mantido após 90 s |
-| Cinco coletas no início com Sonic | +250 pontos, sem antecipar a passagem de nível |
+| Três coletas no início com Sonic | +90 pontos, sem antecipar a passagem de nível |
 | Evolução iniciada 0,5 s antes de cada transição | Cenário, pontos e velocidade pausados; transição apenas após completar o tempo ativo |
 | Pulo, colisão e reinício após chegar ao Difícil | Partida encerra, cenário para e reinício volta ao Fácil em 0,8x |
 | Movimento reduzido e tela de 320 px | Cenário parado, níveis ativos e interface sem rolagem horizontal |
@@ -104,10 +104,10 @@ Os estilos dos raios estão centralizados em `css/styles.css`; o JavaScript cont
 
 ## Easter egg: Pikachu e Raichu
 
-Somente o Pikachu pode evoluir. Ao alcançar pelo menos 100 pontos reais da partida, uma Pedra do Trovão substitui o próximo coletável. Ela usa a folha de 20 quadros em `assets/collectibles/sprites/thunderstone.png`, recortada na exibição pelo mapeamento em `assets/collectibles/frames.json`.
+Somente o Pikachu pode evoluir. Ao alcançar pelo menos 1.500 pontos reais da partida, uma Pedra do Trovão substitui o próximo coletável. Ela usa a folha de 20 quadros em `assets/collectibles/sprites/thunderstone.png`, recortada na exibição pelo mapeamento em `assets/collectibles/frames.json`.
 
-Coletar a pedra concede os 50 pontos do item e transforma o personagem em Raichu. Sua corrida usa os três quadros recortados da primeira linha do sprite enviado, em `assets/characters/raichu/corrida-01.png` a `corrida-03.png`. O fundo azul foi removido, os pixels do personagem foram preservados e os pés ficam alinhados em células transparentes de 56 × 50 px. A sequência é 1 → 2 → 3 → 2, com 100 ms por quadro, controlada pelo loop da partida; a animação para durante a evolução e no Game Over.
+Coletar a pedra concede os 30 pontos do item e transforma o personagem em Raichu. Sua corrida usa os três quadros recortados da primeira linha do sprite enviado, em `assets/characters/raichu/corrida-01.png` a `corrida-03.png`. O fundo azul foi removido, os pixels do personagem foram preservados e os pés ficam alinhados em células transparentes de 56 × 50 px. A sequência é 1 → 2 → 3 → 2, com 100 ms por quadro, controlada pelo loop da partida; a animação para durante a evolução e no Game Over.
 
 Cenário, obstáculos, velocidade e pontuação continuam na mesma partida. Raichu mantém a proporção dos quadros recortados, com largura de 125 px no computador e 118 px no celular. A evolução preserva o progresso do pulo e a posição dos pés. Se perder a pedra, ela reaparece até ser coletada. Depois da evolução, os coletáveis normais retornam. Cada nova partida começa como Pikachu; o evento não se aplica aos outros três personagens.
 
-A evolução também apresenta os quatro quadros `assets/effects/evolution-thunder-1.jpg` a `evolution-thunder-4.jpg` como efeito animado elétrico sobre a tela inteira. O fundo preto desaparece pela mistura de cores no CSS. Durante os 1,2 segundo do efeito, pontuação, aceleração, obstáculos, itens e pulo são pausados. Depois, a partida retoma do mesmo ponto. Com movimento reduzido, um quadro estático dos raios aparece com entrada e saída suaves. Para testar no seu computador, abra o projeto no Laragon e jogue com Pikachu até atingir 100 pontos. Se a pedra passar, ela voltará a aparecer até ser coletada.
+A evolução também apresenta os quatro quadros `assets/effects/evolution-thunder-1.jpg` a `evolution-thunder-4.jpg` como efeito animado elétrico sobre a tela inteira. O fundo preto desaparece pela mistura de cores no CSS. Durante os 1,2 segundo do efeito, pontuação, aceleração, obstáculos, itens e pulo são pausados. Depois, a partida retoma do mesmo ponto. Com movimento reduzido, um quadro estático dos raios aparece com entrada e saída suaves. Para testar no seu computador, abra o projeto no Laragon e jogue com Pikachu até atingir 1.500 pontos. Se a pedra passar, ela voltará a aparecer até ser coletada.

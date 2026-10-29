@@ -6,7 +6,7 @@ function conectarBanco(): PDO
     $port = getenv('DB_PORT') ?: '3306';
     $user = getenv('DB_USER') ?: 'root';
     $pass = getenv('DB_PASSWORD') ?: 'mysql';
-    $dbname = getenv('DB_NAME') ?: 'hero_jump';
+    $dbname = getenv('DB_NAME') ?: 'vortex';
     if (!preg_match('/^[A-Za-z0-9_]+$/', $dbname)) {
         throw new RuntimeException('Nome de banco inválido.');
     }

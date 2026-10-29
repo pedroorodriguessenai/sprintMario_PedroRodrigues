@@ -31,20 +31,22 @@ body {
 
 /* O GIF da abertura fica discreto ao redor do tabuleiro durante a partida. */
 .game-page {
-    --game-background-opacity: 0.12;
+    --game-background-opacity: 0.24;
     isolation: isolate;
 }
 .game-page::before {
     content: '';
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: 0;
     background: url('../assets/fundo-inicio.gif') center / cover no-repeat;
     opacity: var(--game-background-opacity);
     pointer-events: none;
 }
 
 .game-container {
+    position: relative;
+    z-index: 1;
     width: 100%;
     max-width: 900px;
     padding: 10px;
@@ -1099,7 +1101,6 @@ body {
     image-rendering: pixelated;
 }
 @media (prefers-reduced-motion: reduce) {
-    .game-page::before { display: none; }
     .game-board.evolving::before { animation: none; opacity: 0; }
     .collectible[data-kind="evolution"] { animation: none; }
 }

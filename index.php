@@ -55,7 +55,7 @@ $recorde = !empty($rankingInicial) ? $rankingInicial[0] : null;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=fundo-limpeza-1">
+    <link rel="stylesheet" href="css/styles.css?v=fundo-pontos-2">
 </head>
 <body class="game-page">
     <button type="button" class="audio-toggle" id="audio-toggle" aria-label="Silenciar áudio" aria-pressed="false">Som: ligado</button>
@@ -138,7 +138,7 @@ $recorde = !empty($rankingInicial) ? $rankingInicial[0] : null;
                 </li>
                 <li>
                     <span class="howto-label">PONTUAR</span>
-                    <span>Quanto mais tempo você sobreviver, mais pontos faz. Colete os itens do seu personagem para ganhar 50 pontos extras por item. Com Pikachu, ao chegar a 100 pontos, a Pedra do Trovão pode surgir para evoluir para Raichu.</span>
+                    <span>Quanto mais tempo você sobreviver, mais pontos faz. Colete os itens do seu personagem para ganhar 30 pontos extras por item. Com Pikachu, a Pedra do Trovão aparece a partir de 1.500 pontos; colete-a para evoluir para Raichu.</span>
                 </li>
                 <li>
                     <span class="howto-label">NÍVEIS</span>
@@ -272,6 +272,6 @@ $recorde = !empty($rankingInicial) ? $rankingInicial[0] : null;
    
     <script type="application/json" id="collectible-sprites"><?= json_encode($spritesColetaveis, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
     <script src="js/audio.js?v=audio-1" defer></script>
-    <script src="js/script.js?v=fundo-limpeza-1" defer></script>
+    <script src="js/script.js?v=fundo-pontos-2" defer></script>
 </body>
 </html>
