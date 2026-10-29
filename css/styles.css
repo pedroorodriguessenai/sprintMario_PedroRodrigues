@@ -29,6 +29,21 @@ body {
     user-select: none;
 }
 
+/* O GIF da abertura fica discreto ao redor do tabuleiro durante a partida. */
+.game-page {
+    --game-background-opacity: 0.12;
+    isolation: isolate;
+}
+.game-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url('../assets/fundo-inicio.gif') center / cover no-repeat;
+    opacity: var(--game-background-opacity);
+    pointer-events: none;
+}
+
 .game-container {
     width: 100%;
     max-width: 900px;
@@ -37,6 +52,24 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
+.audio-toggle {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 300;
+    min-height: 42px;
+    padding: 10px 14px;
+    border: 1px solid #849bff80;
+    border-radius: 10px;
+    background: #0c1022ed;
+    color: #e8ecff;
+    font: 600 12px 'Poppins', sans-serif;
+    cursor: pointer;
+}
+.audio-toggle:hover { border-color: #b8a3ff; }
+.audio-toggle:focus-visible { outline: 3px solid #b8a3ff; outline-offset: 4px; }
+.audio-toggle[aria-pressed="true"] { color: #b5bbd0; }
 
 /* Barra Superior (HUD) */
 .hud-bar {
@@ -54,11 +87,32 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
-.player-info, .speed-info, .collect-info, .score-info {
+.player-info, .level-info, .collect-info, .score-info {
     display: flex;
     align-items: center;
     gap: 10px;
 }
+.player-info {
+    min-width: 0;
+    max-width: 100%;
+}
+.player-info .value {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.level-info .level-badge {
+    font-size: 10px;
+    padding: 9px 10px;
+    border: 1px solid currentColor;
+    border-radius: 7px;
+    background: #0c1022;
+    white-space: nowrap;
+}
+.level-info[data-level="1"] .level-badge { color: #9de4c4; }
+.level-info[data-level="2"] .level-badge { color: #ffe09a; }
+.level-info[data-level="3"] .level-badge { color: #ffabab; }
 
 .label {
     font-family: 'Press Start 2P', 'Courier New', monospace;
@@ -85,9 +139,52 @@ body {
     margin: 0 auto;
     position: relative;
     overflow: hidden;
-    background: #849BFF url('../assets/cenario-pikachu.jpg') center bottom / cover no-repeat;
+    background: #849BFF;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     cursor: pointer;
+}
+
+/* Três painéis alternados permitem rolagem contínua sem saltos no reinício. */
+.scenery-track {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform;
+}
+.scenery-panel {
+    flex: 0 0 100%;
+    height: 100%;
+    background-position: center bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.scenery-panel:nth-child(even) {
+    transform: scaleX(-1);
+}
+.level-notice {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 13;
+    max-width: calc(100% - 24px);
+    padding: 15px 20px;
+    border: 1px solid #ffe09a;
+    border-radius: 10px;
+    background: rgba(12, 16, 34, 0.92);
+    color: #ffe09a;
+    font: 10px/1.8 'Press Start 2P', monospace;
+    text-align: center;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 5px 20px #0005;
+}
+.level-notice[hidden] { display: none; }
+.game-board[data-level="3"] .level-notice {
+    color: #ffabab;
+    border-color: #ffabab;
 }
 
 /* Linha de neon no chão */
@@ -550,7 +647,7 @@ body {
     .hud-bar {
         padding: 10px 14px;
     }
-    .player-info, .speed-info, .collect-info, .score-info {
+    .player-info, .level-info, .collect-info, .score-info {
         gap: 6px;
     }
     .label {
@@ -559,6 +656,7 @@ body {
     .value {
         font-size: 11px;
     }
+    .level-info .level-badge { font-size: 9px; padding: 7px 8px; }
     .game-title {
         font-size: 16px;
     }
@@ -845,8 +943,6 @@ body {
     text-decoration: underline;
     text-underline-offset: 5px;
     font-weight: 600;
-}
-.about-link {
     padding: 8px 16px;
     border-radius: 8px;
     background: rgba(12, 16, 34, 0.85);
@@ -864,7 +960,7 @@ body {
     .studio-caption { letter-spacing: 3px; }
 }
 
-/* Sobre nós: somente a história da VORTEX e do Hero Jump. */
+/* Sobre nós: apresentação e história da VORTEX e do Hero Jump. */
 .story-page { display: block; user-select: text; background: radial-gradient(ellipse at top, #251e3e, #0c1022 65%); }
 .story-shell { width: min(100%, 900px); margin: 0 auto; padding: 0 28px; }
 .story-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 0; border-bottom: 1px solid #b8a3ff30; }
@@ -877,12 +973,34 @@ body {
 .story-eyebrow { font-size: 10px; letter-spacing: 4px; color: #b4a0da; margin-bottom: 15px; }
 .story-intro h1 { font-size: clamp(28px, 4vw, 42px); line-height: 1.3; letter-spacing: -1px; }
 .story-lead { color: #aeb6d0; font-size: 14px; line-height: 1.9; margin: 18px auto 0; max-width: 520px; }
+.story-shortcut { display: inline-block; margin-top: 18px; color: #cbb6ff; font-size: 13px; text-underline-offset: 5px; }
+.story-shortcut:hover { color: #fff; }
+.story-shortcut:focus-visible { outline: 3px solid #bca5fa; outline-offset: 6px; }
 .story-chapter { max-width: 720px; margin: 0 auto; padding: 30px 0; border-top: 1px solid #b8a3ff30; }
 .story-chapter-label { font-size: 9px; letter-spacing: 2px; color: #b9a2dc; }
 .story-chapter h2 { font-size: 25px; margin: 13px 0 22px; line-height: 1.4; }
 .story-chapter p { color: #c2c7db; font-size: 14px; line-height: 1.95; margin-bottom: 18px; }
 .story-chapter p:last-child { margin-bottom: 0; }
 .story-chapter strong { color: #e6d7ff; }
+.story-chapter h3 { margin: 26px 0 12px; color: #e6d7ff; font-size: 17px; }
+.story-facts { margin-top: 26px; padding: 6px 22px; border: 1px solid #b8a3ff30; border-radius: 14px; background: #15192c; }
+.story-facts > div { padding: 17px 0; }
+.story-facts > div + div { border-top: 1px solid #b8a3ff25; }
+.story-facts dt { margin-bottom: 7px; font-size: 13px; font-weight: 700; color: #e6d7ff; }
+.story-facts dd { color: #c2c7db; font-size: 14px; line-height: 1.8; }
+.requirements-wrap { border: 1px solid #b8a3ff30; border-radius: 14px; overflow: hidden; background: #15192c; }
+.requirements-table { width: 100%; table-layout: fixed; border-collapse: collapse; color: #c2c7db; font-size: 13px; line-height: 1.8; }
+.requirements-table caption { padding: 17px 16px; text-align: left; font-size: 13px; font-weight: 600; color: #e6d7ff; background: #1d2139; }
+.requirements-code-column { width: 78px; }
+.requirements-type-column { width: 120px; }
+.requirements-table th, .requirements-table td { padding: 14px 12px; text-align: left; vertical-align: top; overflow-wrap: break-word; }
+.requirements-table thead { background: #0c1022; color: #e6d7ff; }
+.requirements-table thead th { font-size: 12px; font-weight: 600; }
+.requirements-table tbody tr { border-top: 1px solid #b8a3ff25; }
+.requirements-table tbody th { color: #d4c3f3; font-family: 'Courier New', monospace; white-space: nowrap; }
+.requirements-table tbody tr:nth-child(even) { background: #b8a3ff06; }
+.requirements-table .requirements-type { color: #cbb6ff; font-size: 12px; font-weight: 600; }
+.requirements-nonfunctional .requirements-type { color: #a8dce5; }
 .story-footer { padding: 30px 0; text-align: center; color: #b0a5c9; font-size: 12px; line-height: 1.9; }
 .story-footer span { font-size: 10px; color: #929bb7; }
 @media (max-width: 600px) {
@@ -896,6 +1014,13 @@ body {
     .story-chapter { padding: 25px 0; }
     .story-chapter h2 { font-size: 22px; }
     .story-chapter p { font-size: 13px; }
+    .story-facts { padding: 4px 17px; }
+    .story-facts dd { font-size: 13px; }
+    .requirements-code-column { width: 58px; }
+    .requirements-type-column { width: 84px; }
+    .requirements-table { font-size: 12px; }
+    .requirements-table th, .requirements-table td { padding: 12px 8px; }
+    .requirements-table thead th, .requirements-table .requirements-type { font-size: 11px; }
 }
 
 /* Evolução do Pikachu: a pedra usa exatamente o deslocamento dos demais itens. */
@@ -916,13 +1041,11 @@ body {
     image-rendering: pixelated;
     filter: drop-shadow(0 0 5px rgba(255, 217, 93, 0.75));
 }
-
 @media (max-width: 600px) {
     .hero.is-evolved {
         width: 118px;
     }
 }
-
 .collect-feedback[data-kind="evolution"] {
     width: max-content;
     max-width: calc(100% - 24px);
@@ -932,8 +1055,9 @@ body {
     line-height: 1.8;
     color: #fff0ad;
 }
-.game-board.evolving .pipe {
-    animation-play-state: paused;
+.game-board.evolving .pipe,
+.game-board.evolving .hero {
+    animation-play-state: paused !important;
 }
 .game-board.evolving::before {
     content: '';
@@ -942,7 +1066,7 @@ body {
     z-index: 14;
     pointer-events: none;
     background: radial-gradient(circle at 18% 65%, rgba(255, 231, 137, 0.65), rgba(255, 204, 92, 0.18) 36%, transparent 75%);
-    animation: evolution-glow 1080ms ease-out forwards;
+    animation: evolution-glow 1200ms ease-out forwards;
 }
 @keyframes evolution-glow { from { opacity: 1; } to { opacity: 0; } }
 @media (max-width: 600px) {
@@ -954,15 +1078,15 @@ body {
 .raios-evolucao {
     position: fixed;
     inset: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
     pointer-events: none;
     mix-blend-mode: screen;
     opacity: 0;
-    transition: opacity 170ms ease-out;
+    transition: opacity 240ms ease-out;
 }
-.raios-evolucao.active { opacity: 0.96; }
+.raios-evolucao.active { opacity: 0.95; }
 .raios-evolucao.finishing { opacity: 0; }
 .raios-evolucao[hidden],
 .raios-evolucao img[hidden] { display: none; }
@@ -971,11 +1095,11 @@ body {
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: fill;
     image-rendering: pixelated;
 }
 @media (prefers-reduced-motion: reduce) {
-    .raios-evolucao { display: none; }
+    .game-page::before { display: none; }
     .game-board.evolving::before { animation: none; opacity: 0; }
     .collectible[data-kind="evolution"] { animation: none; }
 }

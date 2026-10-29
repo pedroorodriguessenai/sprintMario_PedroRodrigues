@@ -55,9 +55,10 @@ $recorde = !empty($rankingInicial) ? $rankingInicial[0] : null;
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=evolution-100-1">
+    <link rel="stylesheet" href="css/styles.css?v=fundo-limpeza-1">
 </head>
-<body>
+<body class="game-page">
+    <button type="button" class="audio-toggle" id="audio-toggle" aria-label="Silenciar áudio" aria-pressed="false">Som: ligado</button>
 
     <div class="game-container">
         
@@ -66,9 +67,9 @@ $recorde = !empty($rankingInicial) ? $rankingInicial[0] : null;
                 <span class="label">JOGADOR:</span>
                 <span class="value" id="hud-player-name">---</span>
             </div>
-            <div class="speed-info">
-                <span class="label">VEL:</span>
-                <span class="value" id="speed-display">1.0x</span>
+            <div class="level-info" id="level-info" data-level="1">
+                <span class="label">NÍVEL:</span>
+                <span class="value level-badge" id="level-display" role="status" aria-live="polite">1 — FÁCIL</span>
             </div>
             <div class="collect-info">
                 <span class="label">ITENS:</span>
@@ -82,7 +83,12 @@ $recorde = !empty($rankingInicial) ? $rankingInicial[0] : null;
 
         
         <main class="game-board" id="game-board">
-
+            <div class="scenery-track" id="scenery-track" aria-hidden="true">
+                <?php for ($i = 0; $i < 3; $i++): ?>
+                    <div class="scenery-panel" style="background-image: url('<?= htmlspecialchars($personagens[0]['cenario']) ?>')"></div>
+                <?php endfor; ?>
+            </div>
+            <div class="level-notice" id="level-notice" hidden aria-hidden="true"></div>
             <img src="<?= htmlspecialchars($personagens[0]['run']) ?>" class="hero" alt="Personagem">
             <img src="<?= htmlspecialchars($personagens[0]['obstaculo']) ?>" class="pipe" alt="Obstáculo">
             <div class="collect-feedback" id="collect-feedback" role="status" aria-live="polite"></div>
@@ -91,12 +97,12 @@ $recorde = !empty($rankingInicial) ? $rankingInicial[0] : null;
     </div>
 
     <!-- Quadros da evolução: overlay independente para cobrir a viewport inteira -->
-            <div class="raios-evolucao" id="raios-evolucao" hidden aria-hidden="true">
-                <img src="assets/effects/evolution-thunder-1.jpg" alt="" hidden>
-                <img src="assets/effects/evolution-thunder-2.jpg" alt="" hidden>
-                <img src="assets/effects/evolution-thunder-3.jpg" alt="" hidden>
-                <img src="assets/effects/evolution-thunder-4.jpg" alt="" hidden>
-            </div>
+    <div class="raios-evolucao" id="raios-evolucao" hidden aria-hidden="true">
+        <img src="assets/effects/evolution-thunder-1.jpg" alt="" hidden>
+        <img src="assets/effects/evolution-thunder-2.jpg" alt="" hidden>
+        <img src="assets/effects/evolution-thunder-3.jpg" alt="" hidden>
+        <img src="assets/effects/evolution-thunder-4.jpg" alt="" hidden>
+    </div>
 
     <!-- 0. TELA INICIAL (aparece ao entrar no site e ao clicar em "Voltar à tela inicial") -->
     <div class="splash active" id="splash-screen" role="dialog" aria-label="Hero Jump - tela inicial">
@@ -133,6 +139,10 @@ $recorde = !empty($rankingInicial) ? $rankingInicial[0] : null;
                 <li>
                     <span class="howto-label">PONTUAR</span>
                     <span>Quanto mais tempo você sobreviver, mais pontos faz. Colete os itens do seu personagem para ganhar 50 pontos extras por item. Com Pikachu, ao chegar a 100 pontos, a Pedra do Trovão pode surgir para evoluir para Raichu.</span>
+                </li>
+                <li>
+                    <span class="howto-label">NÍVEIS</span>
+                    <span>Comece no Fácil. Após 20 segundos de jogo, avance para o Médio; aos 45 segundos, entre no Difícil. O cenário e os obstáculos aceleram aos poucos. A pausa da evolução não conta nesse tempo.</span>
                 </li>
                 <li>
                     <span class="howto-label">RANKING</span>
@@ -261,6 +271,7 @@ $recorde = !empty($rankingInicial) ? $rankingInicial[0] : null;
 
    
     <script type="application/json" id="collectible-sprites"><?= json_encode($spritesColetaveis, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
-    <script src="js/script.js?v=raios-corrigidos-2" defer></script>
+    <script src="js/audio.js?v=audio-1" defer></script>
+    <script src="js/script.js?v=fundo-limpeza-1" defer></script>
 </body>
 </html>
